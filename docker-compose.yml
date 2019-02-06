@@ -4,7 +4,10 @@ volumes:
   postgres-data:
 
 services:
+
   chat-client:
+    labels:
+      shipyard.route: '/'
     build:
       context: ./client
       dockerfile: Dockerfile
@@ -12,6 +15,7 @@ services:
     command: node server.js
     ports:
       - '5008:8080'
+
   chat-api:
     build:
       context: ./api
@@ -22,6 +26,7 @@ services:
       - POSTGRES_CONNECTION_URI=postgres://postgres:password@postgres:5432/chat
     ports:
       - '5006:3000'
+
   postgres:
     image: postgres
     restart: always
@@ -34,4 +39,3 @@ services:
       - '5005:5432'
     expose:
       - '5432'
-    
